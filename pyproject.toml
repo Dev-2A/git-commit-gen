@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "git-commit-gen"
+version = "0.1.0"
+description = "Git diff를 분석해서 커밋 메시지를 자동 생성하는 CLI 도구"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "Dev-2A"}
+]
+keywords = ["git", "commit", "llm", "cli"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "click>=8.0",
+    "openai>=1.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "ruff>=0.1",
+]
+
+[project.scripts]
+git-commit-gen = "git_commit_gen.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Dev-2A/git-commit-gen"
+Repository = "https://github.com/Dev-2A/git-commit-gen"
+
+[tool.setuptools.packages.find]
+where = ["src"]
