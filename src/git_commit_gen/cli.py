@@ -12,7 +12,8 @@ load_dotenv()
 @click.command()
 @click.option("--commit", is_flag=True, help="생성된 메시지로 바로 커밋합니다.")
 @click.option("--type", "commit_type", type=str, default=None, help="커밋 타입 (feat, fix, docs 등)")
-def main(commit: bool, commit_type: str | None) -> None:
+@click.option("--lang", type=click.Choice(["ko", "en"]), default="ko", help="커밋 메시지 언어 (기본: ko)")
+def main(commit: bool, commit_type: str | None, lang: str) -> None:
     """Git diff를 분석해서 커밋 메시지를 자동 생성합니다."""
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
@@ -32,10 +33,11 @@ def main(commit: bool, commit_type: str | None) -> None:
         raise SystemExit(1)
     
     click.echo(f"📂 변경된 파일: {', '.join(files)}")
+    click.echo(f"🌐 언어: {'English' if lang == 'en' else '한국어'}")
     click.echo("🤖 커밋 메시지 생성 중...")
     
     try:
-        message = generate_commit_message(diff, files, commit_type, api_key)
+        message = generate_commit_message(diff, files, commit_type, api_key, lang)
     except Exception as e:
         click.echo(f"오류: 메시지 생성 실패 - {e}", err=True)
         raise SystemExit(1)
