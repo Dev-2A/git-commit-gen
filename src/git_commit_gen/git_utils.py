@@ -7,8 +7,10 @@ def get_staged_diff() -> str:
         ["git", "diff", "--cached"],
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace"
     )
-    return result.stdout
+    return result.stdout or ""
 
 
 def get_staged_files() -> list[str]:
@@ -17,8 +19,11 @@ def get_staged_files() -> list[str]:
         ["git", "diff", "--cached", "--name-only"],
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace"
     )
-    return [f for f in result.stdout.strip().split("\n") if f]
+    stdout = result.stdout or ""
+    return [f for f in stdout.strip().split("\n") if f]
 
 
 def create_commit(message: str) -> bool:
@@ -27,5 +32,7 @@ def create_commit(message: str) -> bool:
         ["git", "commit", "-m", message],
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
     )
     return result.returncode == 0
